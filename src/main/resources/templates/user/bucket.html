@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Корзина</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:insert="fragments/header.html :: header"></div>
+<div class="m" th:insert="fragments/menu.html :: menu"></div>
+
+<div class="page-title">Моя корзина</div>
+
+<th:block th:if="${isEmpty}">
+  <h2>В данный момент корзина пуста</h2>
+  <a th:href="@{/}">Вперед за покупками!</a>
+</th:block>
+
+<th:block th:if="${!isEmpty}">
+  <form method="POST" th:object="${bucket}" th:action="@{/user/bucket}">
+  <div class="product-list">
+    <div class="product-preview-container"
+         th:each="bucketItem, varStatus: ${bucket.getBucketItems()}">
+      <ul>
+
+        <li style="text-align: center">
+          <img class="product-image"
+               th:src="@{/images/{imgName}(imgName=${bucketItem.product.getImgName()})}" />
+        </li>
+
+        <li>Название: <span th:utext="${bucketItem.getProduct().getTitle()}"></span></li>
+
+        <li>Цена:
+          <span class="price" th:utext="${bucketItem.getProduct().getPrice()}"></span>
+        </li>
+
+        <li>Колличество:
+          <inpu/>
+        </li>
+
+        <li>Итог:
+          <span class="subtotal"
+                th:utext="${bucketItem.calculateTotalSum()}">
+                        </span>
+        </li>
+        <li>
+          <a th:href="@{user/bucket/remove(productId = ${bucketItem.getProduct().getId()})}">
+            Удалить товар
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+    <div style="clear: both"></div>
+    <input class="button-update-sc" type="submit" value="Обновить корзину" />
+    <a class="navi-item"
+       th:href="@{user/confirmOrder}">Оформить заказ</a>
+    <a class="navi-item"
+       th:href="@{/}">Продолжить покупки</a>
+  </form>
+</th:block>
+
+<br/>
+<br/>
+<hr/>
+
+<div th:insert="fragments/footer.html :: footer"></div>
+
+</body>
+</html>
+
+<!--
+th:name="|bucketItem[${varStatus.index}].quantity|"-->

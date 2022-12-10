@@ -1,0 +1,31 @@
+h1 {
+    color: #78ab46;
+}
+
+*{
+    background-color: gainsboro;
+}
+
+button {
+    background-color: #78ab46;
+    color: white;
+}
+
+.error-message {
+    color: #a94442;
+}
+
+.error-message:first-letter {
+    text-transform: capitalize;
+}
+
+.registration-form{
+    text-align: center;
+}
+
+
+.form-group{
+    margin: 30px;
+    text-align: center;
+}
+

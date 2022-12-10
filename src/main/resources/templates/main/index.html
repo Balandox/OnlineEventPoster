@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Афиша</title>
+</head>
+<body>
+
+<div th:insert="fragments/header.html :: header"></div>
+
+<!--style="margin-right: 320px"-->
+
+<div class="menu-categories">
+    <div class="categories">
+        <a th:href="@{/catalog(category='CINEMA')}">Кино</a>
+        <a th:href="@{/catalog(category='CONCERT')}">Концерты</a>
+        <a th:href="@{/catalog(category='THEATER')}">Театр</a>
+        <a  th:href="@{/catalog(category='SPORT')}">Спорт</a>
+
+        <div class="m" th:insert="fragments/menu.html :: menu"></div>
+    </div>
+</div>
+
+
+<div class="page-title">Список мероприятий</div>
+<div class="product-list">
+    <div class="product-preview-container" th:each="product: ${products}">
+    <ul>
+        <li style="text-align: center"><img class="product-image"
+                                            th:src="@{images/{imgName}(imgName=${product.getImgName()})}" /></li>
+        <li class="product-li"><b>Название:</b> <span th:utext="${product.getTitle()}"></span></li>
+        <li class="product-li"><b>Цена:</b> <span th:utext="${product.getPrice()} + 'р'"></span></li>
+        <li class="product-li"><b>Дата:</b> <span th:utext="${product.getDateOfEvent().toGMTString()}"></span></li>
+        <li class="product-li"><a th:href="@{/user/buyProduct(productId=${product.getId()})}">Купить</a></li>
+        <!-- For Manager edit Product -->
+        <th:block sec:authorize="hasAuthority('ADMIN')">
+            <li class="product-li">
+                <a style="color:red;"
+                   th:href="@{/admin/productEdit(productId=${product.getId()})}">Редактировать</a>
+            </li>
+        </th:block>
+    </ul>
+</div></div>
+
+<br/>
+<br/>
+<hr/>
+
+<div th:insert="fragments/footer.html :: footer"></div>
+<!--<div class="page-navigator" th:if="${paginationProducts.totalPages > 1}">
+    <th:block th:each="page : ${paginationProducts.navigationPages}">
+
+        <a th:href="@{|/productList?page=${page}|}" th:if="${page != -1}"
+           class="nav-item" th:utext="${page}"></a>
+
+        <span class="nav-item" th:if="${page == -1}"> ... </span>
+
+    </th:block>
+</div>-->
+
+
+</body>
+</html>

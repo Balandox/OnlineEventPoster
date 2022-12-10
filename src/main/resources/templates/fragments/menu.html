@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+
+
+<div th:fragment="menu" class="menu-container">
+    <a th:href="@{/}">Главная</a>
+    <th:block sec:authorize="hasAuthority('USER')">
+        <a th:href="@{/user/bucket}">
+            Корзина
+        </a>
+    </th:block>
+    <th:block sec:authorize="hasAuthority('ADMIN')">
+        <a th:href="@{/admin/orderList}">
+            Список заказов
+        </a>
+    </th:block>
+    <th:block sec:authorize="hasAuthority('ADMIN')">
+        <a th:href="@{/admin/createProduct}">
+            Создать
+        </a>
+    </th:block>
+</div>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+
+<body>
+
+<div th:fragment="header" class="header-container">
+
+    <div class="site-name">Афиша мероприятий</div>
+
+    <div class="header-bar">
+        <th:block sec:authorize="isAuthenticated()">
+            Hello,
+            <a th:href="@{/accountInfo}" th:utext="${#request.userPrincipal.name} + '!' ">..</a>
+            <a th:href="@{/logout}">Выйти</a>
+        </th:block>
+
+        <th:block sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}">Войти</a>
+            <a th:href="@{/registration}">Зарегистрироваться</a>
+        </th:block>
+    </div>
+</div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+
+    <title>Регистрация</title>
+</head>
+<body>
+
+<div class="container">
+
+        <div class="registration-form">
+
+            <h1>Регистрация</h1>
+            <div class="row">
+                <form th:action="@{/registration}" th:object="${userForm}" method="POST">
+
+                    <div class="form-group"
+                         th:classappend="${#fields.hasErrors('name')}? 'has-error':''">
+                        <label for="firstName" class="control-label">Имя пользователя</label>
+                        <input id="firstName"
+                               class="form-control"
+                               th:field="*{name}"/>
+                        <p class="error-message"
+                           th:each="error: ${#fields.errors('name')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+
+                    <div class="form-group"
+                         th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
+                        <label for="email" class="control-label">E-mail</label>
+                        <input id="email"
+                               class="form-control"
+                               th:field="*{email}"/>
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('email')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+
+                    <div class="form-group"
+                         th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
+                        <label for="password" class="control-label">Пароль</label>
+                        <input id="password"
+                               class="form-control"
+                               type="password"
+                               th:field="*{password}"/>
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('password')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+
+                    <div class="form-group"
+                         th:classappend="${#fields.hasErrors('passwordConfirm')}? 'has-error':''">
+                        <label for="confirmPassword" class="control-label">Повторите пароль</label>
+                        <input id="confirmPassword"
+                               class="form-control"
+                               type="password"
+                               th:field="*{passwordConfirm}"/>
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('passwordConfirm')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit">Зарегистрироваться</button>
+                        <span>Уже зарегистрированы? <a href="/" th:href="@{/login}">Войдите</a></span>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+</div>
+
+</body>
+</html>
