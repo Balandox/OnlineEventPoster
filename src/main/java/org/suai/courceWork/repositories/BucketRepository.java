@@ -11,4 +11,8 @@ import java.util.List;
 @Repository
 public interface BucketRepository extends JpaRepository<Bucket, Integer> {
 
+    void deleteBucketById(int id);
+
+
+
 }

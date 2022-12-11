@@ -13,7 +13,7 @@
 <div class="page-title">Моя корзина</div>
 
 <th:block th:if="${isEmpty}">
-  <h2>В данный момент корзина пуста</h2>
+  <h2>В данный момент корзина пуста!</h2>
   <a th:href="@{/}">Вперед за покупками!</a>
 </th:block>
 
@@ -36,7 +36,23 @@
         </li>
 
         <li>Колличество:
-          <inpu/>
+          <span class="price" th:utext="${bucketItem.getQuantity()}"></span>
+        </li>
+
+        <li>
+        <div th:switch="${bucketItem.getProduct().getAmount()}">
+          <p th:case="${0}" style="color: red" >Последний билет!</p>
+          <a th:case="*" th:href="@{/user/bucket/addProduct(productId = ${bucketItem.getProduct().getId()})}">
+            Добавить экземпляр
+          </a>
+        </div>
+        </li>
+
+
+        <li>
+          <a th:href="@{/user/bucket/reduceProduct(productId = ${bucketItem.getProduct().getId()})}">
+            Убрать экземпляр
+          </a>
         </li>
 
         <li>Итог:
@@ -45,7 +61,7 @@
                         </span>
         </li>
         <li>
-          <a th:href="@{user/bucket/remove(productId = ${bucketItem.getProduct().getId()})}">
+          <a th:href="@{/user/bucket/removeProduct(productId = ${bucketItem.getProduct().getId()})}">
             Удалить товар
           </a>
         </li>
@@ -53,11 +69,11 @@
     </div>
   </div>
 
-
     <div style="clear: both"></div>
-    <input class="button-update-sc" type="submit" value="Обновить корзину" />
+      <input class="button-update-sc" type="submit" value="Очистить корзину" />
+
     <a class="navi-item"
-       th:href="@{user/confirmOrder}">Оформить заказ</a>
+       th:href="@{/user/confirmOrder}">Оформить заказ</a>
     <a class="navi-item"
        th:href="@{/}">Продолжить покупки</a>
   </form>

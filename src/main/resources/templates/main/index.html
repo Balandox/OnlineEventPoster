@@ -34,7 +34,10 @@
         <li class="product-li"><b>Название:</b> <span th:utext="${product.getTitle()}"></span></li>
         <li class="product-li"><b>Цена:</b> <span th:utext="${product.getPrice()} + 'р'"></span></li>
         <li class="product-li"><b>Дата:</b> <span th:utext="${product.getDateOfEvent().toGMTString()}"></span></li>
-        <li class="product-li"><a th:href="@{/user/buyProduct(productId=${product.getId()})}">Купить</a></li>
+        <div th:switch="${product.getAmount()}">
+            <p th:case="${0}" style="color: red" >Все билеты распроданы!</p>
+            <p th:case="*" class="product-li"><a th:href="@{/user/buyProduct(productId=${product.getId()})}">Купить</a></p>
+        </div>
         <!-- For Manager edit Product -->
         <th:block sec:authorize="hasAuthority('ADMIN')">
             <li class="product-li">
@@ -50,16 +53,6 @@
 <hr/>
 
 <div th:insert="fragments/footer.html :: footer"></div>
-<!--<div class="page-navigator" th:if="${paginationProducts.totalPages > 1}">
-    <th:block th:each="page : ${paginationProducts.navigationPages}">
-
-        <a th:href="@{|/productList?page=${page}|}" th:if="${page != -1}"
-           class="nav-item" th:utext="${page}"></a>
-
-        <span class="nav-item" th:if="${page == -1}"> ... </span>
-
-    </th:block>
-</div>-->
 
 
 </body>

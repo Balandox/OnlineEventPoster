@@ -29,6 +29,9 @@ public class Product {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "amount")
+    private int amount;
+
     @Column(name = "img_name")
     private String imgName;
 

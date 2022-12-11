@@ -32,10 +32,15 @@ public class UserController {
     }
 
     @GetMapping("/buyProduct")
-    public String buyProduct(@RequestParam("productId") int id, RedirectAttributes atr , Model model) throws Exception {
+    public String buyProduct(@RequestParam("productId") int id, RedirectAttributes atr) throws Exception {
 
-        Product product = productService.getProductById(id);
-        this.bucketService.addProductToBucket(product, this.userService.getPrincipalName());
+        try {
+            Product product = productService.getProductById(id);
+            this.bucketService.addProductToBucket(product, this.userService.getPrincipalName());
+        }
+        catch (ArithmeticException e){
+            atr.addFlashAttribute("errorMessage", e.getMessage());
+        }
 
         return "redirect:/";
     }
@@ -56,10 +61,36 @@ public class UserController {
     }
 
     @PostMapping("/bucket")
-    public String bucketUpdateQuantity(@ModelAttribute("bucketDTO") BucketDTO bucketDTO, RedirectAttributes attributes){
-        for(BucketItemDTO itemDTO : bucketDTO.getBucketItems()){
-            System.out.println(itemDTO.getQuantity());
+    public String clearBucket() throws Exception {
+        this.bucketService.clearBucket(this.userService.getPrincipalName());
+        return "redirect:/user/bucket";
+    }
+
+    @GetMapping("/bucket/addProduct")
+    public String addOneCopyToCart(@RequestParam("productId") int id, RedirectAttributes atr) throws Exception {
+        try {
+            Product product = productService.getProductById(id);
+            this.bucketService.addProductToBucket(product, this.userService.getPrincipalName());
         }
+        catch (ArithmeticException e){
+            atr.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/user/bucket";
+    }
+
+    @GetMapping("/bucket/reduceProduct")
+    public String reduceQuantityOfProductInBucket(@RequestParam("productId") int id) throws Exception {
+        Product product = productService.getProductById(id);
+        this.bucketService.reduceQuantityOfProduct(product, this.userService.getPrincipalName());
+
+        return "redirect:/user/bucket";
+    }
+
+    @GetMapping("/bucket/removeProduct")
+    public String deleteProductFromBucket(@RequestParam("productId") int id) throws Exception {
+        Product product = productService.getProductById(id);
+        this.bucketService.deleteProductFromBucket(product, this.userService.getPrincipalName());
+
         return "redirect:/user/bucket";
     }
 

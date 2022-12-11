@@ -13,7 +13,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findByTitleStartingWith(String title);
 
+    List<Product> findByOrderByTitle();
 
     List<Product> findAllByCategory(Category category);
+
+    List<Product> findAllByTitle(String title);
+
 
 }

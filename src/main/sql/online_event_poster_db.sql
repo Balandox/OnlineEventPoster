@@ -68,6 +68,10 @@ INSERT INTO Product(title, img_name, date, price, amount, category) VALUES
         ('Футбольный матч Зенит - Ростов', 'zenit-rostov.jpg' , '2022-12-20 19:00', 1500, 15000, 'SPORT'),
         ('Баскетбольный матч Зенит - Цска', 'zenit-cska.jpg' , '2022-11-15 18:00', 1500, 5000, 'SPORT');
 
+INSERT INTO Product(title, img_name, date, price, amount, category) VALUES
+         ('Опера щелкунчик', 'nutcracker.jpg', '2023-01-20 18:00', 1700, 3, 'THEATRE');
+
+DELETE FROM Product WHERE title = 'Опера щелкунчик';
 DELETE FROM Users WHERE id = 1;
 
 SELECT * FROM Users;
