@@ -34,15 +34,24 @@
         <li class="product-li"><b>Название:</b> <span th:utext="${product.getTitle()}"></span></li>
         <li class="product-li"><b>Цена:</b> <span th:utext="${product.getPrice()} + 'р'"></span></li>
         <li class="product-li"><b>Дата:</b> <span th:utext="${#dates.format(product.getDateOfEvent(),'dd-MM-yyyy HH:mm')}"></span></li>
-        <div th:switch="${product.getAmount()}">
-            <p th:case="${0}" style="color: red" >Все билеты распроданы!</p>
-            <p th:case="*" class="product-li"><a th:href="@{/user/buyProduct(productId=${product.getId()})}">Купить</a></p>
-        </div>
+
+        <th:block sec:authorize="!isFullyAuthenticated() || hasAuthority('USER')">
+            <div th:switch="${product.getAmount()}">
+                <p th:case="${0}" style="color: red" >Все билеты распроданы!</p>
+                <p th:case="*" class="product-li"><a th:href="@{/user/buyProduct(productId=${product.getId()})}">Купить</a></p>
+            </div>
+        </th:block>
+
         <!-- For Manager edit Product -->
         <th:block sec:authorize="hasAuthority('ADMIN')">
             <li class="product-li">
                 <a style="color:red;"
-                   th:href="@{/admin/productEdit(productId=${product.getId()})}">Редактировать</a>
+                   th:href="@{/admin/productEdit/{id}(id=${product.getId()})}">Редактировать</a>
+            </li>
+
+            <li class="product-li">
+                <a style="color:red;"
+                   th:href="@{/admin/deleteProduct(productId = ${product.getId()})}">Удалить</a>
             </li>
         </th:block>
     </ul>

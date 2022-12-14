@@ -112,7 +112,9 @@ body {
 }
 
 .product-list{
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 100px;
 }
 
 .product-preview-container input {

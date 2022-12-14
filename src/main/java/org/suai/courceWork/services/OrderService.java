@@ -1,6 +1,5 @@
 package org.suai.courceWork.services;
 
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +8,6 @@ import org.suai.courceWork.dto.BucketItemDTO;
 import org.suai.courceWork.dto.OrderDTO;
 import org.suai.courceWork.models.entities.Order;
 import org.suai.courceWork.models.entities.OrderDetails;
-import org.suai.courceWork.models.entities.Product;
 import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.repositories.OrderDetailsRepository;
 import org.suai.courceWork.repositories.OrderRepository;

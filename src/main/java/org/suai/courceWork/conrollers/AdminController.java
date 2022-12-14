@@ -3,16 +3,18 @@ package org.suai.courceWork.conrollers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.suai.courceWork.dto.OrderDTO;
-import org.suai.courceWork.models.entities.Order;
+import org.suai.courceWork.models.forms.ProductForm;
 import org.suai.courceWork.services.OrderService;
+import org.suai.courceWork.services.ProductService;
+import org.suai.courceWork.utils.DateParser;
+import org.suai.courceWork.utils.ProductFormDateValidator;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.Valid;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,9 +22,15 @@ public class AdminController {
 
     private final OrderService orderService;
 
+    private final ProductService productService;
+
+    private final ProductFormDateValidator productFormDateValidator;
+
     @Autowired
-    public AdminController(OrderService orderService) {
+    public AdminController(OrderService orderService, ProductService productService, ProductFormDateValidator productFormDateValidator) {
         this.orderService = orderService;
+        this.productService = productService;
+        this.productFormDateValidator = productFormDateValidator;
     }
 
     @GetMapping("/orderList")
@@ -39,9 +47,35 @@ public class AdminController {
         return "admin/orderInfo";
     }
 
-/*    @GetMapping("/productEdit")
-    public String editProduct(@RequestParam("productId") int productId, Model model){
-        //model.addAttribute()
-    }*/
+    @GetMapping("/productEdit/{id}")
+    public String editProduct(@PathVariable("id") int productId, Model model){
+
+        model.addAttribute("productForm", this.productService.getProductFormById(productId));
+        return "admin/productEdit";
+    }
+
+    @PostMapping("/productEdit/{id}")
+    public String saveEditedProduct(@PathVariable("id") int productId, @ModelAttribute("productForm") @Valid ProductForm productForm,
+                                    BindingResult bindingResult){
+
+        Date dateOfEvent = DateParser.getDate(productForm.getDateOfEvent());
+
+        if(dateOfEvent == null)
+            bindingResult.rejectValue("dateOfEvent", "", "Правильный формат даты: yyyy.MM.dd HH:mm");
+
+        if(bindingResult.hasErrors())
+            return "admin/productEdit";
+
+        this.productService.saveEditedProduct(productForm, productId, dateOfEvent);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/deleteProduct")
+    public String deleteProduct(@RequestParam("productId") int productId){
+        this.productService.deleteProductById(productId);
+
+        return "redirect:/";
+    }
 
 }

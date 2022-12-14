@@ -6,12 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
+import org.suai.courceWork.models.entities.Product;
 import org.suai.courceWork.models.enums.Category;
-import org.suai.courceWork.validations.CategorySubset;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,28 +20,39 @@ import java.util.Date;
 @AllArgsConstructor
 public class ProductForm {
 
+    int id;
     @Size(min=5, message = "Не меньше 5 знаков")
     @NotBlank(message = "Укажите название!")
     private String title;
 
-    @NotBlank(message = "Введите цену")
-    @PositiveOrZero(message = "Цена не может быть отрицательной")
-    private int price;
+    @Positive(message = "Цена не может быть больше нуля")
+    @NotNull(message = "Укажите цену товара")
+    private Integer price;
 
-    @NotBlank(message = "Введите кол-во товара")
     @PositiveOrZero(message = "Кол-во товара не может быть отрицательным")
-    private int amount;
+    @NotNull(message = "Укажите цену товара")
+    private Integer amount;
 
-    @NotNull
-    private MultipartFile image;
+    @NotBlank(message = "Введите имя картинки с расширением")
+    private String imageName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
-    @NotNull(message = "Укажите дату мероприятия")
-    @FutureOrPresent(message = "Укажите корректную дату проведения мероприятия")
-    private Date dateOfEvent;
+    private String dateOfEvent;
 
     //@CategorySubset(anyOf = {Category.CINEMA, Category.CONCERT, Category.SPORT, Category.THEATRE})
     private Category category;
 
+    public ProductForm(Product product){
+        this.id = product.getId();
+        this.title = product.getTitle();
+        this.price = product.getPrice();
+        this.amount = product.getAmount();
+        this.imageName = product.getImgName();
+        this.dateOfEvent = product.getDateOfEvent().toString();
+        this.category = product.getCategory();
+    }
+
+    public Category[] getCategoryArray(){
+        return Category.values();
+    }
 
 }
