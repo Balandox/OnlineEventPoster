@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.suai.courceWork.dto.BucketDTO;
 import org.suai.courceWork.dto.BucketItemDTO;
-import org.suai.courceWork.exceptions.NotEnoughElementsException;
 import org.suai.courceWork.models.entities.Bucket;
 import org.suai.courceWork.models.entities.Product;
 import org.suai.courceWork.models.entities.User;
@@ -18,9 +17,9 @@ import java.util.*;
 @Transactional
 public class BucketService {
 
-    private BucketRepository bucketRepository;
-    private ProductRepository productRepository;
-    private UserService userService;
+    private final BucketRepository bucketRepository;
+    private final ProductRepository productRepository;
+    private final UserService userService;
 
 
     @Autowired
@@ -89,6 +88,15 @@ public class BucketService {
                 tmpProductList.add(tmpProduct);
                 tmpProduct.setAmount(tmpProduct.getAmount() + Collections.frequency(productList, tmpProduct));
             }
+
+        bucket.getProductList().clear();
+        this.bucketRepository.deleteBucketById(bucket.getId());
+        user.setBucket(null);
+    }
+
+    public void deleteBucketAfterOrder(String name) {
+        User user = this.userService.findFirstByName(name);
+        Bucket bucket = user.getBucket();
 
         bucket.getProductList().clear();
         this.bucketRepository.deleteBucketById(bucket.getId());

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Заказ оформлен</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:insert="fragments/header.html :: header"></div>
+<div class="m" th:insert="fragments/menu.html :: menu"></div>
+
+<div class="page-title">Заказ оформлен</div>
+<div class="container">
+  <h3>Спасибо за ваш заказ!</h3>
+  Ваш номер заказа: <span th:utext="${order.getOrderNum()}"></span>
+</div>
+
+<br/>
+<br/>
+<hr/>
+
+<div th:insert="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

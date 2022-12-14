@@ -3,6 +3,7 @@ package org.suai.courceWork.models.entities;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.suai.courceWork.models.enums.Role;
+import org.suai.courceWork.models.forms.UserForm;
 
 import javax.persistence.*;
 import java.util.List;

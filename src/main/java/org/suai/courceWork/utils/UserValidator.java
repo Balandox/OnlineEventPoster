@@ -5,8 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.suai.courceWork.models.entities.User;
-import org.suai.courceWork.models.entities.UserForm;
-import org.suai.courceWork.repositories.UserRepository;
+import org.suai.courceWork.models.forms.UserForm;
 import org.suai.courceWork.services.UserService;
 
 @Component

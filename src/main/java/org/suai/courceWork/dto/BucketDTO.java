@@ -33,8 +33,8 @@ public class BucketDTO {
         return this.amountOfProducts;
     }
 
-    public void calculate(){
-        this.amountOfProducts = bucketItems.size();
+   public void calculate(){
+        this.amountOfProducts = this.getTotalAmount();
 
         for(BucketItemDTO bucketItemDTO : bucketItems)
             this.sum += bucketItemDTO.calculateTotalSum();

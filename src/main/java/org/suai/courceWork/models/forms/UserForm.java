@@ -1,4 +1,4 @@
-package org.suai.courceWork.models.entities;
+package org.suai.courceWork.models.forms;
 
 import lombok.*;
 

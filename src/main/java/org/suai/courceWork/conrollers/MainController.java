@@ -1,24 +1,18 @@
 package org.suai.courceWork.conrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.suai.courceWork.models.entities.Product;
 import org.suai.courceWork.models.entities.User;
-import org.suai.courceWork.models.entities.UserForm;
+import org.suai.courceWork.models.forms.UserForm;
 import org.suai.courceWork.models.enums.Category;
 import org.suai.courceWork.services.ProductService;
 import org.suai.courceWork.services.UserService;
 import org.suai.courceWork.utils.UserValidator;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 

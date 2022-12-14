@@ -13,7 +13,6 @@ import org.suai.courceWork.models.entities.Product;
 public class BucketItemDTO {
     private Product product;
     private int quantity;
-
     private int sum;
 
     public BucketItemDTO(Product product){
@@ -23,7 +22,7 @@ public class BucketItemDTO {
     }
 
     public int calculateTotalSum(){
-        return this.product.getPrice() * quantity;
+        return this.product.getPrice() * this.quantity;
     }
 
 

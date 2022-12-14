@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список заказов</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:insert="fragments/header.html :: header"></div>
+<div th:insert="fragments/menu.html :: menu"></div>
+
+<div class="page-title">Список заказов</div>
+<div>Общее колличество заказов: <span th:utext="${orderList.size()}"></span></div>
+<br/>
+<table border="1" style="width:100%">
+    <tr>
+        <th>Номер Заказа</th>
+        <th>Дата заказа</th>
+        <th>Логин покупателя</th>
+        <th>Email покупателя</th>
+        <th>Кол-во товаров</th>
+        <th>Итоговая сумма</th>
+        <th>Смотреть</th>
+    </tr>
+    <tr th:each="order : ${orderList}">
+        <td th:utext="${order.getOrder().getOrderNum()}"></td>
+        <td th:utext="${#dates.format(order.getOrder().getCreationTime(),'dd-MM-yyyy HH:mm')}"></td>
+        <td th:utext="${order.getOrder().getUser().getName()}"></td>
+        <td th:utext="${order.getOrder().getUser().getEmail()}"></td>
+        <td style="color:red;" th:utext="${order.getTotalAmountOfTicketsAtOrder()}">
+        <td style="color:blue;" th:utext="${order.getOrder().getTotalSum()} + 'р'">
+        </td>
+        <td><a th:href="@{/admin/orderInfo(orderId=${order.getOrder().getId()})}">Смотреть</a></td>
+    </tr>
+</table>
+<!--
+<div class="page-navigator" th:if="${paginationResult.totalPages > 1}" >
+    <th:block th:each="page: ${paginationResult.navigationPages}">
+        <a th:if="${page != -1}" class="nav-item"
+           th:href="@{|/admin/orderList?page=${page}|}" th:utext="${page}"></a>
+
+        <span th:if="${page == -1}" class="nav-item"> ... </span>
+    </th:block>
+</div>
+-->
+
+<br/>
+<br/>
+<hr/>
+
+<div th:insert="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

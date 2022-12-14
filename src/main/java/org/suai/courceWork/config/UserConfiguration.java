@@ -14,8 +14,4 @@ public class UserConfiguration {
         return new User();
     }
 
-/*    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
 }

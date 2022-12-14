@@ -32,7 +32,7 @@
         <li>Название: <span th:utext="${bucketItem.getProduct().getTitle()}"></span></li>
 
         <li>Цена:
-          <span class="price" th:utext="${bucketItem.getProduct().getPrice()}"></span>
+          <span class="price" th:utext="${bucketItem.getProduct().getPrice()} + 'р'"></span>
         </li>
 
         <li>Колличество:
@@ -51,13 +51,13 @@
 
         <li>
           <a th:href="@{/user/bucket/reduceProduct(productId = ${bucketItem.getProduct().getId()})}">
-            Убрать экземпляр
+            Удалить экземпляр
           </a>
         </li>
 
         <li>Итог:
           <span class="subtotal"
-                th:utext="${bucketItem.calculateTotalSum()}">
+                th:utext="${bucketItem.calculateTotalSum()} + 'р'">
                         </span>
         </li>
         <li>
@@ -73,7 +73,7 @@
       <input class="button-update-sc" type="submit" value="Очистить корзину" />
 
     <a class="navi-item"
-       th:href="@{/user/confirmOrder}">Оформить заказ</a>
+       th:href="@{/user/bucketConfirmation}">Оформить заказ</a>
     <a class="navi-item"
        th:href="@{/}">Продолжить покупки</a>
   </form>

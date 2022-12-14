@@ -32,10 +32,6 @@ public class Order {
     @Column(name = "total_sum")
     private int totalSum;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private OrderStatus status;
-
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

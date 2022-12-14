@@ -17,14 +17,14 @@
     <div class="categories">
         <a th:href="@{/catalog(category='CINEMA')}">Кино</a>
         <a th:href="@{/catalog(category='CONCERT')}">Концерты</a>
-        <a th:href="@{/catalog(category='THEATER')}">Театр</a>
+        <a th:href="@{/catalog(category='THEATRE')}">Театр</a>
         <a  th:href="@{/catalog(category='SPORT')}">Спорт</a>
 
         <div class="m" th:insert="fragments/menu.html :: menu"></div>
     </div>
 </div>
 
-
+<!--product.getDateOfEvent().toGMTString()-->
 <div class="page-title">Список мероприятий</div>
 <div class="product-list">
     <div class="product-preview-container" th:each="product: ${products}">
@@ -33,7 +33,7 @@
                                             th:src="@{images/{imgName}(imgName=${product.getImgName()})}" /></li>
         <li class="product-li"><b>Название:</b> <span th:utext="${product.getTitle()}"></span></li>
         <li class="product-li"><b>Цена:</b> <span th:utext="${product.getPrice()} + 'р'"></span></li>
-        <li class="product-li"><b>Дата:</b> <span th:utext="${product.getDateOfEvent().toGMTString()}"></span></li>
+        <li class="product-li"><b>Дата:</b> <span th:utext="${#dates.format(product.getDateOfEvent(),'dd-MM-yyyy HH:mm')}"></span></li>
         <div th:switch="${product.getAmount()}">
             <p th:case="${0}" style="color: red" >Все билеты распроданы!</p>
             <p th:case="*" class="product-li"><a th:href="@{/user/buyProduct(productId=${product.getId()})}">Купить</a></p>
@@ -46,7 +46,8 @@
             </li>
         </th:block>
     </ul>
-</div></div>
+</div>
+</div>
 
 <br/>
 <br/>
