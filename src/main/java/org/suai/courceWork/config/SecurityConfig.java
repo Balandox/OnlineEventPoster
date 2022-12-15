@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ разрешен всем пользователей
                 .antMatchers("/", "/catalog", "/productInfo/**").permitAll()
                 //Все остальные страницы требуют аутентификации
-
+                .and().exceptionHandling().accessDeniedPage("/403")
                 .and()
                 //Настройка для входа в систему
                 .formLogin()
@@ -81,22 +81,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .permitAll();
 
-/*                     http.authorizeRequests()
-                .antMatchers("/", "/index", "/product/**").permitAll()
-                .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
-                .antMatchers("/user/**").hasRole(Role.USER.name())
-                    .and()
-                .formLogin()
-                //.loginPage("/login")
-                .failureUrl("/login-error")
-                //.loginProcessingUrl("/login")
-                .permitAll()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .and()
-                .csrf().disable();
-    }*/
     }
 }

@@ -49,7 +49,7 @@ public class AdminController {
 
     @GetMapping("/productEdit/{id}")
     public String editProduct(@PathVariable("id") int productId, Model model){
-
+        model.addAttribute("new", false);
         model.addAttribute("productForm", this.productService.getProductFormById(productId));
         return "admin/productEdit";
     }
@@ -71,11 +71,20 @@ public class AdminController {
         return "redirect:/";
     }
 
+    //не работает, нужно что-то придумать с каскадным удалением
     @GetMapping("/deleteProduct")
     public String deleteProduct(@RequestParam("productId") int productId){
         this.productService.deleteProductById(productId);
 
         return "redirect:/";
     }
+
+    @GetMapping("/createProduct")
+    public String createProduct(Model model){
+        model.addAttribute("productForm", new ProductForm());
+        model.addAttribute("new", true);
+        return "admin/productEdit";
+    }
+
 
 }

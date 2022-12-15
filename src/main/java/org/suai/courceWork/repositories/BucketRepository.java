@@ -7,12 +7,7 @@ import org.suai.courceWork.models.entities.Product;
 
 import java.util.List;
 
-
 @Repository
 public interface BucketRepository extends JpaRepository<Bucket, Integer> {
-
     void deleteBucketById(int id);
-
-
-
 }

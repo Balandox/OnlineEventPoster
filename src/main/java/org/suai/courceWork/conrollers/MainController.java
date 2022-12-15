@@ -69,5 +69,9 @@ public class MainController {
         return "user/login";
     }
 
+    @GetMapping("/403")
+    public String accessDenied() {
+        return "main/403";
+    }
 
 }

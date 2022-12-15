@@ -50,12 +50,24 @@ public class ProductService {
     public void saveEditedProduct(ProductForm productForm, int productId, Date dateOfEvent){
         Product product = this.getProductById(productId);
 
-        product.setTitle(productForm.getTitle());
-        product.setPrice(productForm.getPrice());
-        product.setAmount(productForm.getAmount());
-        product.setImgName(productForm.getImageName());
-        product.setDateOfEvent(dateOfEvent);
-        product.setCategory(productForm.getCategory());
+        if(product != null) {
+            product.setTitle(productForm.getTitle());
+            product.setPrice(productForm.getPrice());
+            product.setAmount(productForm.getAmount());
+            product.setImgName(productForm.getImageName());
+            product.setDateOfEvent(dateOfEvent);
+            product.setCategory(productForm.getCategory());
+        }
+        else{
+            product = new Product();
+            product.setTitle(productForm.getTitle());
+            product.setPrice(productForm.getPrice());
+            product.setAmount(productForm.getAmount());
+            product.setImgName(productForm.getImageName());
+            product.setDateOfEvent(dateOfEvent);
+            product.setCategory(productForm.getCategory());
+            this.productRepository.save(product);
+        }
 
     }
 
