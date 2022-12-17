@@ -108,6 +108,11 @@ body {
     text-align:left;
 }
 
+.date_sort{
+    text-align: left;
+    padding: 5px 20px 10px 10px
+}
+
 /** {box-sizing: border-box;}*/
 .searchF {
     position: relative;

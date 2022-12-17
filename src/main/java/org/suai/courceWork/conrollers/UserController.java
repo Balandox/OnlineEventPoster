@@ -8,36 +8,36 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.suai.courceWork.dto.BucketDTO;
 import org.suai.courceWork.models.entities.Order;
 import org.suai.courceWork.models.entities.Product;
-import org.suai.courceWork.services.BucketService;
-import org.suai.courceWork.services.OrderService;
-import org.suai.courceWork.services.ProductService;
-import org.suai.courceWork.services.UserService;
+import org.suai.courceWork.services.implementations.BucketServiceImpl;
+import org.suai.courceWork.services.implementations.OrderServiceImpl;
+import org.suai.courceWork.services.implementations.ProductServiceImpl;
+import org.suai.courceWork.services.implementations.UserServiceImpl;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
-    private final ProductService productService;
+    private final UserServiceImpl userServiceImpl;
+    private final ProductServiceImpl productServiceImpl;
 
-    private final BucketService bucketService;
+    private final BucketServiceImpl bucketServiceImpl;
 
-    private final OrderService orderService;
+    private final OrderServiceImpl orderServiceImpl;
 
     @Autowired
-    public UserController(UserService userService, ProductService productService, BucketService bucketService, OrderService orderService){
-        this.userService = userService;
-        this.productService = productService;
-        this.bucketService = bucketService;
-        this.orderService = orderService;
+    public UserController(UserServiceImpl userServiceImpl, ProductServiceImpl productServiceImpl, BucketServiceImpl bucketServiceImpl, OrderServiceImpl orderServiceImpl){
+        this.userServiceImpl = userServiceImpl;
+        this.productServiceImpl = productServiceImpl;
+        this.bucketServiceImpl = bucketServiceImpl;
+        this.orderServiceImpl = orderServiceImpl;
     }
 
     @GetMapping("/buyProduct")
     public String buyProduct(@RequestParam("productId") int id, RedirectAttributes atr) throws Exception {
 
         try {
-            Product product = productService.getProductById(id);
-            this.bucketService.addProductToBucket(product, this.userService.getPrincipalName());
+            Product product = productServiceImpl.getProductById(id);
+            this.bucketServiceImpl.addProductToBucket(product, this.userServiceImpl.getPrincipalName());
         }
         catch (ArithmeticException e){
             atr.addFlashAttribute("errorMessage", e.getMessage());
@@ -49,7 +49,7 @@ public class UserController {
     @GetMapping("/bucket")
     public String showBucket(Model model) throws Exception {
 
-        BucketDTO bucketDTO = this.bucketService.getBucketByUserName(this.userService.getPrincipalName());
+        BucketDTO bucketDTO = this.bucketServiceImpl.getBucketByUserName(this.userServiceImpl.getPrincipalName());
 
         if(bucketDTO.getAmountOfProducts() == 0) {
             model.addAttribute("isEmpty", true);
@@ -63,15 +63,15 @@ public class UserController {
 
     @PostMapping("/bucket")
     public String clearBucket() throws Exception {
-        this.bucketService.clearBucket(this.userService.getPrincipalName());
+        this.bucketServiceImpl.clearBucket(this.userServiceImpl.getPrincipalName());
         return "redirect:/user/bucket";
     }
 
     @GetMapping("/bucket/addProduct")
     public String addOneCopyToCart(@RequestParam("productId") int id, RedirectAttributes atr) throws Exception {
         try {
-            Product product = productService.getProductById(id);
-            this.bucketService.addProductToBucket(product, this.userService.getPrincipalName());
+            Product product = productServiceImpl.getProductById(id);
+            this.bucketServiceImpl.addProductToBucket(product, this.userServiceImpl.getPrincipalName());
         }
         catch (ArithmeticException e){
             atr.addFlashAttribute("errorMessage", e.getMessage());
@@ -81,16 +81,16 @@ public class UserController {
 
     @GetMapping("/bucket/reduceProduct")
     public String reduceQuantityOfProductInBucket(@RequestParam("productId") int id) throws Exception {
-        Product product = productService.getProductById(id);
-        this.bucketService.reduceQuantityOfProduct(product, this.userService.getPrincipalName());
+        Product product = productServiceImpl.getProductById(id);
+        this.bucketServiceImpl.reduceQuantityOfProduct(product, this.userServiceImpl.getPrincipalName());
 
         return "redirect:/user/bucket";
     }
 
     @GetMapping("/bucket/removeProduct")
     public String deleteProductFromBucket(@RequestParam("productId") int id) throws Exception {
-        Product product = productService.getProductById(id);
-        this.bucketService.deleteProductFromBucket(product, this.userService.getPrincipalName());
+        Product product = productServiceImpl.getProductById(id);
+        this.bucketServiceImpl.deleteProductFromBucket(product, this.userServiceImpl.getPrincipalName());
 
         return "redirect:/user/bucket";
     }
@@ -98,10 +98,10 @@ public class UserController {
     @GetMapping("/bucketConfirmation")
     public String previewOrder(Model model) throws Exception {
 
-        String userName = this.userService.getPrincipalName();
+        String userName = this.userServiceImpl.getPrincipalName();
 
-        BucketDTO bucketDTO = this.bucketService.getBucketByUserName(userName);
-        bucketDTO.setUser(this.userService.findFirstByName(userName));
+        BucketDTO bucketDTO = this.bucketServiceImpl.getBucketByUserName(userName);
+        bucketDTO.setUser(this.userServiceImpl.findFirstByName(userName));
 
         if(bucketDTO.getAmountOfProducts() == 0) {
             return "redirect:/user/bucket";
@@ -115,7 +115,7 @@ public class UserController {
     @PostMapping("/bucketConfirmation")
     public String confirmOrder(Model model) throws Exception {
 
-        Order order = orderService.saveOrder(this.userService.getPrincipalName());
+        Order order = orderServiceImpl.saveOrder(this.userServiceImpl.getPrincipalName());
 
         //this.bucketService.clearBucket(this.userService.getPrincipalName());
 

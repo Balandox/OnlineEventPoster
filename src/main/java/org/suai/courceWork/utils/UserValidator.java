@@ -6,16 +6,16 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.models.forms.UserForm;
-import org.suai.courceWork.services.UserService;
+import org.suai.courceWork.services.implementations.UserServiceImpl;
 
 @Component
 public class UserValidator implements Validator {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public UserValidator(UserService userService) {
-        this.userService = userService;
+    public UserValidator(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -26,13 +26,12 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         UserForm userForm = (UserForm) target;
-        if(this.userService.findFirstByName(userForm.getName()) != null)
+        if(this.userServiceImpl.findFirstByName(userForm.getName()) != null)
             errors.rejectValue("name", "" , "Пользователь с таким именем уже существует!");
         if(!userForm.getPassword().equals(userForm.getPasswordConfirm()))
             errors.rejectValue("passwordConfirm", "", "Пароли не совпадают!");
-        if(this.userService.findByEmail(userForm.getEmail()) != null)
+        if(this.userServiceImpl.findByEmail(userForm.getEmail()) != null)
             errors.rejectValue("email", "", "Пользователь с таким email уже существует!");
-
     }
 
 }

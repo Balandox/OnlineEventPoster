@@ -9,9 +9,9 @@ import org.suai.courceWork.models.entities.Product;
 import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.models.forms.UserForm;
 import org.suai.courceWork.models.enums.Category;
-import org.suai.courceWork.services.BucketService;
-import org.suai.courceWork.services.ProductService;
-import org.suai.courceWork.services.UserService;
+import org.suai.courceWork.services.implementations.BucketServiceImpl;
+import org.suai.courceWork.services.implementations.ProductServiceImpl;
+import org.suai.courceWork.services.implementations.UserServiceImpl;
 import org.suai.courceWork.utils.UserValidator;
 
 import javax.validation.Valid;
@@ -20,24 +20,24 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    private final ProductService productService;
-    private final UserService userService;
-    private final BucketService bucketService;
-
+    private final ProductServiceImpl productServiceImpl;
+    private final UserServiceImpl userServiceImpl;
+    private final BucketServiceImpl bucketServiceImpl;
     private final UserValidator userValidator;
 
     @Autowired
-    public MainController(ProductService productService, UserService userService, BucketService bucketService, UserValidator userValidator) {
-        this.productService = productService;
-        this.userService = userService;
-        this.bucketService = bucketService;
+    public MainController(ProductServiceImpl productServiceImpl, UserServiceImpl userServiceImpl, BucketServiceImpl bucketServiceImpl, UserValidator userValidator) {
+        this.productServiceImpl = productServiceImpl;
+        this.userServiceImpl = userServiceImpl;
+        this.bucketServiceImpl = bucketServiceImpl;
         this.userValidator = userValidator;
     }
 
     @GetMapping({"", "/"})
     public String index(@RequestParam(value = "category", required = false) String category,
             @RequestParam(value="search", required = false) String searchProduct,
-           Model model){
+            @RequestParam(value="date", required = false) String date,
+            Model model){
 
 /*        category  seacrh
           null      !null  // просто дефолт поиск
@@ -48,38 +48,27 @@ public class MainController {
 
         List<Product> list = null;
 
-        if(category == null && searchProduct == null)
-            list = this.productService.getAll();
+       if(category == null && searchProduct == null && date == null)
+            list = this.productServiceImpl.getAll();
 
         else if(category != null && searchProduct == null)
-            list = this.productService.getAllByCategory(Category.valueOf(category));
+            list = this.productServiceImpl.getAllByCategory(Category.valueOf(category));
 
         else if (category == null && searchProduct != null)
-            list = this.productService.searchProductByTitle(searchProduct);
+            list = this.productServiceImpl.searchProductByTitle(searchProduct);
 
         else if(category != null && searchProduct != null)
-            list = this.productService.searchProductWithCategory(Category.valueOf(category), searchProduct);
+            list = this.productServiceImpl.searchProductWithCategory(Category.valueOf(category), searchProduct);
+
+        else if(date != null)
+            list = this.productServiceImpl.getAllByDate(date);
 
 
         model.addAttribute("search", searchProduct);
         model.addAttribute("category", category);
-        model.addAttribute("products", list);
+       model.addAttribute("products", list);
         return "main/index";
     }
-
-/*    @GetMapping("/catalog")
-    public String getProductByCategory(@RequestParam("category") String category, Model model){
-        List<Product> list = this.productService.getAllByCategory(Category.valueOf(category));
-        model.addAttribute("products", list);
-        return "main/index";
-    }
-
-    @GetMapping("/catalog/search")
-    public String searchProduct(@RequestParam("searchProduct") String title, Model model){
-        List<Product> list = this.productService.searchProductByTitle(title);
-        model.addAttribute("products", list);
-        return "main/index";
-    }*/
 
     @GetMapping("/registration")
     public String registration(Model model){
@@ -95,7 +84,7 @@ public class MainController {
         if(bindingResult.hasErrors())
             return "user/registration";
 
-        userService.saveUser(new User(userForm));
+        userServiceImpl.saveUser(new User(userForm));
 
         return "redirect:/";
     }

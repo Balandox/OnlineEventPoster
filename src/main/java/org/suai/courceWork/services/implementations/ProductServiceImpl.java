@@ -1,26 +1,25 @@
-package org.suai.courceWork.services;
+package org.suai.courceWork.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.suai.courceWork.models.entities.Product;
-import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.models.enums.Category;
 import org.suai.courceWork.models.forms.ProductForm;
 import org.suai.courceWork.repositories.ProductRepository;
+import org.suai.courceWork.services.interfaces.ProductService;
+import org.suai.courceWork.utils.DateParser;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -35,8 +34,6 @@ public class ProductService {
     public List<Product> getAll(){
         return productRepository.findByOrderByTitle();
     }
-
-    public List<Product> getAllByCategory(Category category){return productRepository.findAllByCategory(category);}
 
     public ProductForm getProductFormById(int id){
         Optional<Product> product = this.productRepository.findById(id);
@@ -74,6 +71,37 @@ public class ProductService {
     public List<Product> searchProductByTitle(String search){
         return this.productRepository.findByTitleContainingIgnoreCase(search);
     }
+
+    public List<Product> getAllByDate(String dateString){
+        Date date = DateParser.getDate(dateString);
+        return this.productRepository.findByDateOfEvent(date);
+    }
+
+    public List<Product> getAllByCategory(Category category){
+        return productRepository.findByCategory(category);
+    }
+
+    /*public List<Product> universalSearch(String search, String category, String date){
+
+        Set<Product> allProductSet = new HashSet<>(this.productRepository.findAllByOrderByTitle());
+
+        if(category != null){
+            System.out.println(allProductSet);
+            allProductSet.retainAll(new HashSet<>(this.getAllByCategory(Category.valueOf(category))));
+            System.out.println(allProductSet);
+        }
+
+        if(search != null){
+            allProductSet.retainAll(new HashSet<>(this.searchProductByTitle(search)));
+        }
+
+        if(date != null){
+            allProductSet.retainAll(new HashSet<>(this.getAllByDate(date)));
+        }
+
+        return new ArrayList<>(allProductSet);
+
+    }*/
 
     public List<Product> searchProductWithCategory(Category category, String search){
         return this.productRepository.findByTitleContainingIgnoreCaseAndCategory(search, category);

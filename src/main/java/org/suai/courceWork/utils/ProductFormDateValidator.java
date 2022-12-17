@@ -1,14 +1,10 @@
 package org.suai.courceWork.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.suai.courceWork.models.entities.Product;
-import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.models.forms.ProductForm;
-import org.suai.courceWork.models.forms.UserForm;
-import org.suai.courceWork.services.UserService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

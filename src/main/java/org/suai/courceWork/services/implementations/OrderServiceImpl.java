@@ -1,4 +1,4 @@
-package org.suai.courceWork.services;
+package org.suai.courceWork.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,30 +11,31 @@ import org.suai.courceWork.models.entities.OrderDetails;
 import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.repositories.OrderDetailsRepository;
 import org.suai.courceWork.repositories.OrderRepository;
+import org.suai.courceWork.services.interfaces.OrderService;
 
 import java.util.*;
 
 @Service
 @Transactional
-public class OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final BucketService bucketService;
+    private final BucketServiceImpl bucketServiceImpl;
     private final OrderDetailsRepository orderDetailsRepository;
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, BucketService bucketService, OrderDetailsRepository orderDetailsRepository, UserService userService) {
+    public OrderServiceImpl(OrderRepository orderRepository, BucketServiceImpl bucketServiceImpl, OrderDetailsRepository orderDetailsRepository, UserServiceImpl userServiceImpl) {
         this.orderRepository = orderRepository;
-        this.bucketService = bucketService;
+        this.bucketServiceImpl = bucketServiceImpl;
         this.orderDetailsRepository = orderDetailsRepository;
-        this.userService = userService;
+        this.userServiceImpl = userServiceImpl;
     }
 
     public Order saveOrder(String name){
-        User user = this.userService.findFirstByName(name);
-        BucketDTO bucketDTO = this.bucketService.getBucketByUserName(name);
+        User user = this.userServiceImpl.findFirstByName(name);
+        BucketDTO bucketDTO = this.bucketServiceImpl.getBucketByUserName(name);
 
         Order orderToSave = new Order();
         orderToSave.setUser(user);
@@ -56,7 +57,7 @@ public class OrderService {
         savedOrder.setTotalSum(bucketDTO.getSum());
         this.orderDetailsRepository.saveAll(orderDetailsList);
 
-        this.bucketService.deleteBucketAfterOrder(name);
+        this.bucketServiceImpl.deleteBucketAfterOrder(name);
 
         return savedOrder;
     }

@@ -11,23 +11,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.suai.courceWork.models.enums.Role;
-import org.suai.courceWork.services.BucketService;
-import org.suai.courceWork.services.CustomLogoutHandler;
-import org.suai.courceWork.services.UserService;
+import org.suai.courceWork.services.implementations.CustomLogoutHandler;
+import org.suai.courceWork.services.implementations.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final CustomLogoutHandler customLogoutHandler;
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService, @Lazy CustomLogoutHandler customLogoutHandler) {
-        this.userService = userService;
+    public SecurityConfig(@Lazy UserServiceImpl userServiceImpl, @Lazy CustomLogoutHandler customLogoutHandler) {
+        this.userServiceImpl = userServiceImpl;
         this.customLogoutHandler = customLogoutHandler;
     }
 
@@ -44,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
+        auth.setUserDetailsService(userServiceImpl);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }

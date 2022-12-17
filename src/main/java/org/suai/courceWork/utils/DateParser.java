@@ -1,5 +1,6 @@
 package org.suai.courceWork.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +8,7 @@ import java.util.StringTokenizer;
 
 public class DateParser {
 
-    public static Date getDate(String dateString){
+    public static Date getDateWithTime(String dateString){
 
         StringTokenizer st = new StringTokenizer(dateString, "T");
         if(st.countTokens() != 2)
@@ -24,6 +25,19 @@ public class DateParser {
         } catch (ParseException e) {
             return null;
         }
+        return date;
+    }
+
+    public static Date getDate(String dateString){
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format.parse(dateString);
+        } catch (ParseException e) {
+            return null;
+        }
+
         return date;
     }
 }

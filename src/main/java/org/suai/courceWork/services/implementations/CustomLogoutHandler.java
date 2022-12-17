@@ -1,25 +1,22 @@
-package org.suai.courceWork.services;
+package org.suai.courceWork.services.implementations;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 import org.suai.courceWork.dto.BucketDTO;
-import org.suai.courceWork.models.entities.Bucket;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 @Service
 public class CustomLogoutHandler implements LogoutHandler {
 
-    private final BucketService bucketService;
-    private final UserService userService;
+    private final BucketServiceImpl bucketServiceImpl;
+    private final UserServiceImpl userServiceImpl;
 
-    public CustomLogoutHandler(BucketService bucketService, UserService userService) {
-        this.bucketService = bucketService;
-        this.userService = userService;
+    public CustomLogoutHandler(BucketServiceImpl bucketServiceImpl, UserServiceImpl userServiceImpl) {
+        this.bucketServiceImpl = bucketServiceImpl;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -27,10 +24,10 @@ public class CustomLogoutHandler implements LogoutHandler {
                        Authentication authentication) {
 
         try {
-            String name = this.userService.getPrincipalName();
-            BucketDTO bucketDTO = this.bucketService.getBucketByUserName(name);
+            String name = this.userServiceImpl.getPrincipalName();
+            BucketDTO bucketDTO = this.bucketServiceImpl.getBucketByUserName(name);
             if(bucketDTO.getTotalAmount() != 0)
-                this.bucketService.clearBucket(name);
+                this.bucketServiceImpl.clearBucket(name);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

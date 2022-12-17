@@ -35,7 +35,18 @@
 
     <div class="page-title">Список предстоящих мероприятий</div>
 
+<div th:if="${category == null && search == null}" class="date_sort">
+    <form th:action="@{/}" th:method="GET">
+    <p>
+        <label for="date">Дата мероприятия: </label>
+        <input type="date" id="date" name="date"/>
+        <button type="submit">Отправить</button>
+    </p>
+</form>
+</div>
+
 <!--product.getDateOfEvent().toGMTString()-->
+
 
 <!--th:src="@{/images/{imgName}(imgName=${product.getImgName()})}"-->
 <div class="product-list">
@@ -61,19 +72,17 @@
                    th:href="@{/admin/productEdit/{id}(id=${product.getId()})}">Редактировать</a>
             </li>
 
-<!--            <li th:if="${!product.isCancelled()}" class="product-li">
-                <a style="color:red;"
-                   th:href="@{/admin/archiveProduct(productId = ${product.getId()})}">Архивировать</a>
-            </li>
-
-            <li th:if="${product.isCancelled()}" class="product-li">
-                <a style="color:red;"
-                   th:href="@{/admin/deleteFromArchive(productId = ${product.getId()})}">Убрать из архива</a>
-            </li>-->
         </th:block>
     </ul>
 </div>
 </div>
+
+<!--<div th:if="${products.totalPages > 0}" class="page-navigator"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/(current_page=${products.size}, products_per_page=${pageNumber})}"
+       th:text="${pageNumber}"
+       th:class="${pageNumber==products.number + 1} ? active"></a>
+</div>-->
 
 <br/>
 <br/>

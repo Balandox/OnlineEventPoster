@@ -1,4 +1,4 @@
-package org.suai.courceWork.services;
+package org.suai.courceWork.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,9 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.suai.courceWork.models.entities.User;
-import org.suai.courceWork.models.enums.Category;
 import org.suai.courceWork.models.enums.Role;
 import org.suai.courceWork.repositories.UserRepository;
+import org.suai.courceWork.services.interfaces.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +22,12 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
