@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css}">
     <title>Афиша</title>
 </head>
 <body>
@@ -15,22 +16,33 @@
 
 <div class="menu-categories">
     <div class="categories">
-        <a th:href="@{/catalog(category='CINEMA')}">Кино</a>
-        <a th:href="@{/catalog(category='CONCERT')}">Концерты</a>
-        <a th:href="@{/catalog(category='THEATRE')}">Театр</a>
-        <a  th:href="@{/catalog(category='SPORT')}">Спорт</a>
+        <a th:href="@{/(category='CINEMA', search=${search})}">Кино</a>
+        <a th:href="@{/(category='CONCERT', search=${search})}">Концерты</a>
+        <a th:href="@{/(category='THEATRE', search=${search})}">Театр</a>
+        <a  th:href="@{/(category='SPORT', search=${search})}">Спорт</a>
 
         <div class="m" th:insert="fragments/menu.html :: menu"></div>
     </div>
 </div>
 
+<div>
+    <form class="searchF" th:action="@{/(category=${category})}" th:method="GET">
+        <input class="searchI" name="search" type="search" th:placeholder="${search}">
+        <button class="searchB" type="submit"></button>
+    </form>
+</div>
+
+
+    <div class="page-title">Список предстоящих мероприятий</div>
+
 <!--product.getDateOfEvent().toGMTString()-->
-<div class="page-title">Список мероприятий</div>
+
+<!--th:src="@{/images/{imgName}(imgName=${product.getImgName()})}"-->
 <div class="product-list">
-    <div class="product-preview-container" th:each="product: ${products}">
+    <div th:if="${product.getDateOfEvent().after(#dates.createNow())}" class="product-preview-container" th:each="product: ${products}">
     <ul>
         <li style="text-align: center"><img class="product-image"
-                                            th:src="@{images/{imgName}(imgName=${product.getImgName()})}" /></li>
+                                           th:src="${product.getImgName()}"  /></li>
         <li class="product-li"><b>Название:</b> <span th:utext="${product.getTitle()}"></span></li>
         <li class="product-li"><b>Цена:</b> <span th:utext="${product.getPrice()} + 'р'"></span></li>
         <li class="product-li"><b>Дата:</b> <span th:utext="${#dates.format(product.getDateOfEvent(),'dd-MM-yyyy HH:mm')}"></span></li>
@@ -49,10 +61,15 @@
                    th:href="@{/admin/productEdit/{id}(id=${product.getId()})}">Редактировать</a>
             </li>
 
-            <li class="product-li">
+<!--            <li th:if="${!product.isCancelled()}" class="product-li">
                 <a style="color:red;"
-                   th:href="@{/admin/deleteProduct(productId = ${product.getId()})}">Удалить</a>
+                   th:href="@{/admin/archiveProduct(productId = ${product.getId()})}">Архивировать</a>
             </li>
+
+            <li th:if="${product.isCancelled()}" class="product-li">
+                <a style="color:red;"
+                   th:href="@{/admin/deleteFromArchive(productId = ${product.getId()})}">Убрать из архива</a>
+            </li>-->
         </th:block>
     </ul>
 </div>

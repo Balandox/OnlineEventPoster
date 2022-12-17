@@ -71,8 +71,13 @@ public class ProductService {
 
     }
 
-    public void deleteProductById(int id){
-        this.productRepository.deleteById(id);
+    public List<Product> searchProductByTitle(String search){
+        return this.productRepository.findByTitleContainingIgnoreCase(search);
     }
+
+    public List<Product> searchProductWithCategory(Category category, String search){
+        return this.productRepository.findByTitleContainingIgnoreCaseAndCategory(search, category);
+    }
+
 
 }

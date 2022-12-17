@@ -76,7 +76,7 @@
       <td>Картинка</td>
       <td>
           <img class="product-image" width="150"
-               th:src="@{/images/{imgName}(imgName=${productForm.getImageName()})}"/>
+               th:src="${productForm.getImageName()}"/>
       </td>
       <td> </td>
     </tr>

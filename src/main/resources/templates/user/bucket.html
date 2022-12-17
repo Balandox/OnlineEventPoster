@@ -26,7 +26,7 @@
 
         <li style="text-align: center">
           <img class="product-image"
-               th:src="@{/images/{imgName}(imgName=${bucketItem.product.getImgName()})}" />
+               th:src="${bucketItem.getProduct().getImgName()}" />
         </li>
 
         <li>Название: <span th:utext="${bucketItem.getProduct().getTitle()}"></span></li>

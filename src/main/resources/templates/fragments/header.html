@@ -11,7 +11,8 @@
     <div class="header-bar">
         <th:block sec:authorize="isAuthenticated()">
             Hello,
-            <a th:href="@{/accountInfo}" th:utext="${#request.userPrincipal.name} + '!' ">..</a>
+<!--            <a th:href="@{/accountInfo}" th:utext="${#request.userPrincipal.name} + '!' ">..</a>-->
+            <span th:utext="${#request.userPrincipal.name} + '!' "> userName</span>
             <a th:href="@{/logout}">Выйти</a>
         </th:block>
 

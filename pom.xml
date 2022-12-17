@@ -16,10 +16,13 @@
 	<name>OnlineEventPoster</name>
 	<description>Online event poster</description>
 
+
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
+
 	</properties>
 
 
@@ -29,6 +32,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -93,6 +97,7 @@
 	</dependencies>
 
 	<build>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -104,9 +109,13 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+
+
 				</configuration>
 			</plugin>
+
 		</plugins>
+
 	</build>
 
 </project>

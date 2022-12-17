@@ -76,11 +76,22 @@ INSERT INTO Product(title, img_name, date, price, amount, category) VALUES
         ('Футбольный матч Зенит - Ростов', 'zenit-rostov.jpg' , '2022-12-20 19:00', 1500, 15000, 'SPORT'),
         ('Баскетбольный матч Зенит - Цска', 'zenit-cska.jpg' , '2022-11-15 18:00', 1500, 5000, 'SPORT');
 
+UPDATE Product SET img_name='https://i.postimg.cc/gjFQ5cwK/scally.jpg' WHERE title='Концерт Scally Milano';
+UPDATE Product SET img_name='https://i.postimg.cc/BnYy3BLb/scorpions.jpg' WHERE title='Концерт Scorpions';
+UPDATE Product SET img_name='https://i.postimg.cc/Y06ZwcYB/lovv66.jpg' WHERE title='Концерт Lovv66';
+UPDATE Product SET img_name='https://i.postimg.cc/gkKQSWGv/zenit-rostov.jpg' WHERE title='Футбольный матч Зенит - Ростов';
+UPDATE Product SET img_name='https://i.postimg.cc/tTPmh0rn/zenit-cska.jpg' WHERE title='Баскетбольный матч Зенит - Цска';
+UPDATE Product SET img_name='https://i.postimg.cc/jSd9BFjB/nutcracker.jpg' WHERE title='Опера щелкунчик';
+UPDATE Product SET img_name='https://i.postimg.cc/nVB6mm5S/avatar.jpg' WHERE title='Фильм Аватар';
+
 INSERT INTO Product(title, img_name, date, price, amount, category) VALUES
          ('Опера щелкунчик', 'nutcracker.jpg', '2023-01-20 18:00', 1700, 3, 'THEATRE');
 
 DELETE FROM Product WHERE title = 'Опера щелкунчик';
 DELETE FROM Users WHERE id = 1;
+
+ALTER TABLE Product
+    DROP COLUMN isCanceled;
 
 SELECT * FROM Users;
 

@@ -4,33 +4,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.suai.courceWork.models.enums.Role;
+import org.suai.courceWork.services.BucketService;
+import org.suai.courceWork.services.CustomLogoutHandler;
 import org.suai.courceWork.services.UserService;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserService userService;
+    private final UserService userService;
+    private final CustomLogoutHandler customLogoutHandler;
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService) {
+    public SecurityConfig(@Lazy UserService userService, @Lazy CustomLogoutHandler customLogoutHandler) {
         this.userService = userService;
+        this.customLogoutHandler = customLogoutHandler;
     }
 
     @Bean
@@ -77,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .addLogoutHandler(customLogoutHandler)
                 .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
                 .permitAll();
