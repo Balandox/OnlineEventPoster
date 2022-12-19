@@ -6,4 +6,5 @@ import org.suai.courceWork.models.entities.OrderDetails;
 
 @Repository
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Integer> {
+
 }

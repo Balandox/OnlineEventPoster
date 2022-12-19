@@ -17,10 +17,10 @@ import java.util.*;
 @Service
 @Transactional
 public class BucketServiceImpl implements BucketService {
-
     private final BucketRepository bucketRepository;
     private final ProductRepository productRepository;
     private final UserServiceImpl userServiceImpl;
+
 
 
     @Autowired
