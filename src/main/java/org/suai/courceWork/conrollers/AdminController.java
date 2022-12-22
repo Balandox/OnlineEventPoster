@@ -28,7 +28,7 @@ public class AdminController {
     private final ProductFormDateValidator productFormDateValidator;
 
     @Autowired
-    public AdminController(OrderService orderService, ProductServiceImpl productService, ProductFormDateValidator productFormDateValidator) {
+    public AdminController(OrderService orderService, ProductService productService, ProductFormDateValidator productFormDateValidator) {
         this.orderService = orderService;
         this.productService = productService;
         this.productFormDateValidator = productFormDateValidator;

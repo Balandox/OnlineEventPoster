@@ -29,7 +29,7 @@ public class MainController {
     private final UserValidator userValidator;
 
     @Autowired
-    public MainController(ProductService productService, UserServiceImpl userService, BucketService bucketService, UserValidator userValidator) {
+    public MainController(ProductService productService, UserService userService, BucketService bucketService, UserValidator userValidator) {
         this.productService = productService;
         this.userService = userService;
         this.bucketService = bucketService;

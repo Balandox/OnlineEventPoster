@@ -29,11 +29,11 @@ public class UserController {
     private final OrderService orderService;
 
     @Autowired
-    public UserController(UserServiceImpl userService, ProductServiceImpl productService, BucketService bucketServiceImpl, OrderService orderServiceImpl){
+    public UserController(UserService userService, ProductService productService, BucketService bucketService, OrderService orderService){
         this.userService = userService;
         this.productService = productService;
-        this.bucketService = bucketServiceImpl;
-        this.orderService = orderServiceImpl;
+        this.bucketService = bucketService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/buyProduct")
