@@ -9,6 +9,8 @@ import org.suai.courceWork.dto.OrderDTO;
 import org.suai.courceWork.models.forms.ProductForm;
 import org.suai.courceWork.services.implementations.OrderServiceImpl;
 import org.suai.courceWork.services.implementations.ProductServiceImpl;
+import org.suai.courceWork.services.interfaces.OrderService;
+import org.suai.courceWork.services.interfaces.ProductService;
 import org.suai.courceWork.utils.DateParser;
 import org.suai.courceWork.utils.ProductFormDateValidator;
 
@@ -19,29 +21,29 @@ import java.util.Date;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final OrderServiceImpl orderServiceImpl;
+    private final OrderService orderService;
 
-    private final ProductServiceImpl productServiceImpl;
+    private final ProductService productService;
 
     private final ProductFormDateValidator productFormDateValidator;
 
     @Autowired
-    public AdminController(OrderServiceImpl orderServiceImpl, ProductServiceImpl productServiceImpl, ProductFormDateValidator productFormDateValidator) {
-        this.orderServiceImpl = orderServiceImpl;
-        this.productServiceImpl = productServiceImpl;
+    public AdminController(OrderService orderService, ProductServiceImpl productService, ProductFormDateValidator productFormDateValidator) {
+        this.orderService = orderService;
+        this.productService = productService;
         this.productFormDateValidator = productFormDateValidator;
     }
 
     @GetMapping("/orderList")
     public String getOrderList(Model model){
-        model.addAttribute("orderList", this.orderServiceImpl.getAllOrderDTO());
+        model.addAttribute("orderList", this.orderService.getAllOrderDTO());
 
         return "admin/orderList";
     }
 
     @GetMapping("/orderInfo")
     public String orderView(@RequestParam("orderId") int orderId, Model model){
-        OrderDTO orderDTO = this.orderServiceImpl.findOrderById(orderId);
+        OrderDTO orderDTO = this.orderService.findOrderById(orderId);
         model.addAttribute("orderInfo", orderDTO);
         return "admin/orderInfo";
     }
@@ -49,7 +51,7 @@ public class AdminController {
     @GetMapping("/productEdit/{id}")
     public String editProduct(@PathVariable("id") int productId, Model model){
         model.addAttribute("new", false);
-        model.addAttribute("productForm", this.productServiceImpl.getProductFormById(productId));
+        model.addAttribute("productForm", this.productService.getProductFormById(productId));
         return "admin/productEdit";
     }
 
@@ -65,7 +67,7 @@ public class AdminController {
         if(bindingResult.hasErrors())
             return "admin/productEdit";
 
-        this.productServiceImpl.saveEditedProduct(productForm, productId, dateOfEvent);
+        this.productService.saveEditedProduct(productForm, productId, dateOfEvent);
 
         return "redirect:/";
     }

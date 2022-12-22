@@ -6,8 +6,6 @@ h3 {
     padding: 0px;
 }
 body {
-/*    max-width: 860px;
-    min-width: 360px;*/
     margin: 0px auto;
     background: #F8F8F8;
     padding:0px 5px;
@@ -45,7 +43,6 @@ body {
 }
 .menu-container {
     text-align: right;
-/*    margin-top: 10px*/
 }
 .menu-container a {
     margin: 5px 5px 5px 10px;
@@ -113,7 +110,6 @@ body {
     padding: 5px 20px 10px 10px
 }
 
-/** {box-sizing: border-box;}*/
 .searchF {
     position: relative;
     width: 200px;

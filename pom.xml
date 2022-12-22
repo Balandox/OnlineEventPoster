@@ -104,14 +104,6 @@
 		</dependency>
 
 
-<!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.mockito/mockito-all &ndash;&gt;
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>-->
-
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -119,8 +111,6 @@
 			<version>4.10.0</version>
 			<scope>test</scope>
 		</dependency>
-
-
 
 	</dependencies>
 

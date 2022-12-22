@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.suai.courceWork.models.entities.Product;
 import org.suai.courceWork.models.enums.Category;
 import org.suai.courceWork.repositories.ProductRepository;
-import org.suai.courceWork.services.implementations.ProductServiceImpl;
 import org.suai.courceWork.services.interfaces.ProductService;
 import org.suai.courceWork.utils.DateParser;
 

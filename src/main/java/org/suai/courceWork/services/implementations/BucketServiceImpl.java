@@ -11,6 +11,7 @@ import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.repositories.BucketRepository;
 import org.suai.courceWork.repositories.ProductRepository;
 import org.suai.courceWork.services.interfaces.BucketService;
+import org.suai.courceWork.services.interfaces.UserService;
 
 import java.util.*;
 
@@ -19,20 +20,20 @@ import java.util.*;
 public class BucketServiceImpl implements BucketService {
     private final BucketRepository bucketRepository;
     private final ProductRepository productRepository;
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
 
 
     @Autowired
-    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserServiceImpl userServiceImpl) {
+    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService) {
         this.bucketRepository = bucketRepository;
         this.productRepository = productRepository;
-        this.userServiceImpl = userServiceImpl;
+        this.userService = userService;
     }
 
     public void addProductToBucket(Product product, String name) throws Exception {
 
-        User user = this.userServiceImpl.findFirstByName(name);
+        User user = this.userService.findFirstByName(name);
 
         if (product.getAmount() - 1 < 0) {
             throw new ArithmeticException("К сожалению, все билеты распроданы!");
@@ -56,14 +57,14 @@ public class BucketServiceImpl implements BucketService {
     }
 
     public void reduceQuantityOfProduct(Product product, String name){
-        User user = this.userServiceImpl.findFirstByName(name);
+        User user = this.userService.findFirstByName(name);
         Bucket bucket = user.getBucket();
         bucket.getProductList().remove(product);
         product.setAmount(product.getAmount() + 1);
     }
 
     public void deleteProductFromBucket(Product product, String name){
-        User user = this.userServiceImpl.findFirstByName(name);
+        User user = this.userService.findFirstByName(name);
         Bucket bucket = user.getBucket();
         int amountToReturn = 0;
 
@@ -76,7 +77,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     public void clearBucket(String name){
-        User user = this.userServiceImpl.findFirstByName(name);
+        User user = this.userService.findFirstByName(name);
         Bucket bucket = user.getBucket();
 
         List<Product> productList = bucket.getProductList();
@@ -96,7 +97,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     public void deleteBucketAfterOrder(String name) {
-        User user = this.userServiceImpl.findFirstByName(name);
+        User user = this.userService.findFirstByName(name);
         Bucket bucket = user.getBucket();
 
         bucket.getProductList().clear();
@@ -106,7 +107,7 @@ public class BucketServiceImpl implements BucketService {
 
 
     public BucketDTO getBucketByUserName(String name){
-        User user = this.userServiceImpl.findFirstByName(name);
+        User user = this.userService.findFirstByName(name);
 
         if(user.getBucket() == null)
             return new BucketDTO();

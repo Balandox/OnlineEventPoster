@@ -12,6 +12,9 @@ import org.suai.courceWork.models.enums.Category;
 import org.suai.courceWork.services.implementations.BucketServiceImpl;
 import org.suai.courceWork.services.implementations.ProductServiceImpl;
 import org.suai.courceWork.services.implementations.UserServiceImpl;
+import org.suai.courceWork.services.interfaces.BucketService;
+import org.suai.courceWork.services.interfaces.ProductService;
+import org.suai.courceWork.services.interfaces.UserService;
 import org.suai.courceWork.utils.UserValidator;
 
 import javax.validation.Valid;
@@ -20,19 +23,18 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    private final ProductServiceImpl productServiceImpl;
-    private final UserServiceImpl userServiceImpl;
-    private final BucketServiceImpl bucketServiceImpl;
+    private final ProductService productService;
+    private final UserService userService;
+    private final BucketService bucketService;
     private final UserValidator userValidator;
 
     @Autowired
-    public MainController(ProductServiceImpl productServiceImpl, UserServiceImpl userServiceImpl, BucketServiceImpl bucketServiceImpl, UserValidator userValidator) {
-        this.productServiceImpl = productServiceImpl;
-        this.userServiceImpl = userServiceImpl;
-        this.bucketServiceImpl = bucketServiceImpl;
+    public MainController(ProductService productService, UserServiceImpl userService, BucketService bucketService, UserValidator userValidator) {
+        this.productService = productService;
+        this.userService = userService;
+        this.bucketService = bucketService;
         this.userValidator = userValidator;
     }
-
     @GetMapping({"", "/"})
     public String index(@RequestParam(value = "category", required = false) String category,
             @RequestParam(value="search", required = false) String searchProduct,
@@ -49,19 +51,19 @@ public class MainController {
         List<Product> list = null;
 
        if(category == null && searchProduct == null && date == null)
-            list = this.productServiceImpl.getAll();
+            list = this.productService.getAll();
 
         else if(category != null && searchProduct == null)
-            list = this.productServiceImpl.getAllByCategory(Category.valueOf(category));
+            list = this.productService.getAllByCategory(Category.valueOf(category));
 
         else if (category == null && searchProduct != null)
-            list = this.productServiceImpl.searchProductByTitle(searchProduct);
+            list = this.productService.searchProductByTitle(searchProduct);
 
         else if(category != null && searchProduct != null)
-            list = this.productServiceImpl.searchProductWithCategory(Category.valueOf(category), searchProduct);
+            list = this.productService.searchProductWithCategory(Category.valueOf(category), searchProduct);
 
         else if(date != null)
-            list = this.productServiceImpl.getAllByDate(date);
+            list = this.productService.getAllByDate(date);
 
 
         model.addAttribute("search", searchProduct);
@@ -84,7 +86,7 @@ public class MainController {
         if(bindingResult.hasErrors())
             return "user/registration";
 
-        userServiceImpl.saveUser(new User(userForm));
+        userService.saveUser(new User(userForm));
 
         return "redirect:/";
     }

@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -78,18 +77,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) {
+    public void saveUser(User user) {
 
 
         if (findByName(user.getName()) != null) {
-            return null;
+            return;
         }
 
         user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepository.save(user);
 
-        return user;
     }
 
     public boolean deleteUser(int userId) {

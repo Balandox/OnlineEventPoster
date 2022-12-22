@@ -19,5 +19,4 @@ public interface BucketService {
 
     BucketDTO getBucketByUserName(String name);
 
-    Product findProductInBucket(Bucket bucket, Product product);
 }

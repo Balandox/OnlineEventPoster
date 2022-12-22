@@ -5,8 +5,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.suai.courceWork.models.entities.User;
 
-import java.util.List;
-
 public interface UserService extends UserDetailsService {
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
@@ -15,13 +13,7 @@ public interface UserService extends UserDetailsService {
 
     User findFirstByName(String name);
 
-    List<User> allUsers();
-
-    User findUserById(int userId);
-
-    User saveUser(User user);
-
-    boolean deleteUser(int userId);
+    void saveUser(User user);
 
     String getPrincipalName() throws Exception;
 

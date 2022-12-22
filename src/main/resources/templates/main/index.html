@@ -45,10 +45,6 @@
 </form>
 </div>
 
-<!--product.getDateOfEvent().toGMTString()-->
-
-
-<!--th:src="@{/images/{imgName}(imgName=${product.getImgName()})}"-->
 <div class="product-list">
     <div th:if="${product.getDateOfEvent().after(#dates.createNow())}" class="product-preview-container" th:each="product: ${products}">
     <ul>
@@ -77,12 +73,6 @@
 </div>
 </div>
 
-<!--<div th:if="${products.totalPages > 0}" class="page-navigator"
-     th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/(current_page=${products.size}, products_per_page=${pageNumber})}"
-       th:text="${pageNumber}"
-       th:class="${pageNumber==products.number + 1} ? active"></a>
-</div>-->
 
 <br/>
 <br/>

@@ -81,28 +81,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByCategory(category);
     }
 
-    /*public List<Product> universalSearch(String search, String category, String date){
-
-        Set<Product> allProductSet = new HashSet<>(this.productRepository.findAllByOrderByTitle());
-
-        if(category != null){
-            System.out.println(allProductSet);
-            allProductSet.retainAll(new HashSet<>(this.getAllByCategory(Category.valueOf(category))));
-            System.out.println(allProductSet);
-        }
-
-        if(search != null){
-            allProductSet.retainAll(new HashSet<>(this.searchProductByTitle(search)));
-        }
-
-        if(date != null){
-            allProductSet.retainAll(new HashSet<>(this.getAllByDate(date)));
-        }
-
-        return new ArrayList<>(allProductSet);
-
-    }*/
-
     public List<Product> searchProductWithCategory(Category category, String search){
         return this.productRepository.findByTitleContainingIgnoreCaseAndCategory(search, category);
     }

@@ -15,21 +15,6 @@
 <form  th:object="${productForm}" th:action="@{/admin/productEdit/{id}(id=${productForm.getId()})}"
        method="POST">
   <table style="text-align:left;">
-<!--    <tr>
-      <td>Code *</td>
-      <td style="color:red;">
-        <input th:field="*{newProduct}" type="hidden" />
-        <input th:if="${productForm.newProduct}" type="text"
-               th:field="*{code}" />
-        <th:block th:if="${!productForm.newProduct}">
-          <span th:utext="${productForm.code}"></span>
-          <input type="hidden" th:field="*{code}" />
-        </th:block>
-      </td>
-      <td>
-        <span class="error-message" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">..</span>
-      </td>
-    </tr>-->
     <tr>
       <td>Название</td>
       <td><input th:field="*{title}"  /></td>

@@ -1,10 +1,8 @@
 package org.suai.courceWork.models.entities;
 
 import lombok.*;
-import org.suai.courceWork.models.enums.OrderStatus;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 

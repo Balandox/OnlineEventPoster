@@ -54,20 +54,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                //Доступ только для не зарегистрированных пользователей
                 .antMatchers("/registration").not().fullyAuthenticated()
-                //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .antMatchers("/user/**").hasAuthority(Role.USER.name())
-                //Доступ разрешен всем пользователей
                 .antMatchers("/", "/catalog", "/productInfo/**").permitAll()
-                //Все остальные страницы требуют аутентификации
-                .and().exceptionHandling().accessDeniedPage("/403")
+
                 .and()
-                //Настройка для входа в систему
+                .exceptionHandling()
+                .accessDeniedPage("/403")
+
+                .and()
                 .formLogin()
                 .loginPage("/login")
-                //Перенарпавление на главную страницу после успешного входа
                 .defaultSuccessUrl("/")
                 .permitAll()
 

@@ -37,7 +37,6 @@ public class Bucket {
     private List<Product> productList;
     //+
 
-
     public Bucket(User user){
         this.user = user;
         this.productList = new ArrayList<>();

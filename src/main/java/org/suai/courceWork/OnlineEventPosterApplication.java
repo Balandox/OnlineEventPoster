@@ -13,10 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class OnlineEventPosterApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(OnlineEventPosterApplication.class, args);
-		PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
-		System.out.println(passwordEncoder.encode("pass"));
-
+		SpringApplication.run(OnlineEventPosterApplication.class, args);
 	}
 
 }
