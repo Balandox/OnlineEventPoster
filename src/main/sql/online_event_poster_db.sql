@@ -78,8 +78,8 @@ ALTER TABLE order_details
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
 
-INSERT INTO Users (id, email, name, password, role)
-VALUES (1, 'admin@mail.ru', 'admin', '$2a$10$45XS11YmDmJ4qjlXNdlVuuApgNjm.S7QTlTLmC4GKeMCcyYIMB0zC', 'ADMIN');
+INSERT INTO Users (email, name, password, role)
+VALUES ('admin@mail.ru', 'admin', '$2a$10$gbjqnweL85ZTmL5IFjR.vO4SnQQLnWxWGeB5DAfJ21T.SRvGPv4hC', 'ADMIN');
 
 INSERT INTO Product(title, img_name, date, price, amount, category) VALUES
         ('Концерт Travis Scott', 'https://i.postimg.cc/MZPkMvhD/travis.jpg', '2022-12-27 18:00', 6000, 200 , 'CONCERT'),
