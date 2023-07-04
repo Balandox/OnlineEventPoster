@@ -42,6 +42,9 @@ public class User {
     private List<Order> orderList;
     //+
 
+    @Column(name = "isenabled")
+    private boolean isEnabled;
+
     public User(UserForm userForm){
         this.name = userForm.getName();
         this.password = userForm.getPassword();

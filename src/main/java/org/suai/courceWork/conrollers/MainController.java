@@ -1,20 +1,17 @@
 package org.suai.courceWork.conrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.suai.courceWork.models.entities.ConfirmationToken;
 import org.suai.courceWork.models.entities.Product;
 import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.models.forms.UserForm;
 import org.suai.courceWork.models.enums.Category;
-import org.suai.courceWork.services.implementations.BucketServiceImpl;
-import org.suai.courceWork.services.implementations.ProductServiceImpl;
-import org.suai.courceWork.services.implementations.UserServiceImpl;
-import org.suai.courceWork.services.interfaces.BucketService;
-import org.suai.courceWork.services.interfaces.ProductService;
-import org.suai.courceWork.services.interfaces.UserService;
+import org.suai.courceWork.services.interfaces.*;
 import org.suai.courceWork.utils.UserValidator;
 
 import javax.validation.Valid;
@@ -28,12 +25,20 @@ public class MainController {
     private final BucketService bucketService;
     private final UserValidator userValidator;
 
+    private final EmailSenderService emailSenderService;
+
+    private final ConfirmationTokenService confirmationTokenService;
+
+
     @Autowired
-    public MainController(ProductService productService, UserService userService, BucketService bucketService, UserValidator userValidator) {
+    public MainController(ProductService productService, UserService userService, BucketService bucketService,
+                          UserValidator userValidator, EmailSenderService emailSenderService, ConfirmationTokenService confirmationTokenService) {
         this.productService = productService;
         this.userService = userService;
         this.bucketService = bucketService;
         this.userValidator = userValidator;
+        this.emailSenderService = emailSenderService;
+        this.confirmationTokenService = confirmationTokenService;
     }
     @GetMapping({"", "/"})
     public String index(@RequestParam(value = "category", required = false) String category,
@@ -79,16 +84,40 @@ public class MainController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult) {
+    public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, Model model, BindingResult bindingResult) {
 
         userValidator.validate(userForm, bindingResult);
 
         if(bindingResult.hasErrors())
             return "user/registration";
 
-        userService.saveUser(new User(userForm));
+        User user = new User(userForm);
+        userService.saveUser(user);
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+        this.confirmationTokenService.saveConfirmationToken(confirmationToken);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Complete Registration!");
+        mailMessage.setFrom("semen221411@mail.ru");
+        mailMessage.setText("To confirm your account, please click here : "
+                +"http://localhost:8081/confirmAccount?token="+confirmationToken.getConfirmationToken());
+
+        emailSenderService.sendEmail(mailMessage);
+        model.addAttribute("email", user.getEmail());
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value="/confirmAccount", method= {RequestMethod.GET, RequestMethod.POST})
+    public String confirmUserAccount(Model model, @RequestParam("token") String confirmationToken)
+    {
+        ConfirmationToken token = this.confirmationTokenService.findByConfirmationToken(confirmationToken);
+        User user = this.userService.findByEmail(token.getUser().getEmail());
+        user.setEnabled(true);
+        this.userService.saveUser(user);
+
+        return "user/accountVerified";
     }
 
     @GetMapping("/login")
