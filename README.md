@@ -1,5 +1,5 @@
 # OnlineEventPoster
-This project is afisha.yandex like application.
+This project is afisha.yandex like application.  
 The main technologies used in the project:
 - Spring Core
 - Spring Boot
