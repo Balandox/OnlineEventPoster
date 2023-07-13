@@ -36,6 +36,9 @@ public class UserValidator implements Validator {
 
         if(this.userService.findByEmail(userForm.getEmail()) != null)
             errors.rejectValue("email", "", "Пользователь с таким email уже существует!");
+
+        if(!userForm.getCaptcha().equals(userForm.getHiddenCaptcha()))
+            errors.rejectValue("captcha", "", "Неверна введена Captcha");
     }
 
 }

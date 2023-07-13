@@ -2,6 +2,7 @@ package org.suai.courceWork.models.forms;
 
 import lombok.*;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -28,5 +29,11 @@ public class UserForm {
     @Email(message = "Некорректный адрес электронной почты!")
     @NotBlank(message = "Укажите почту!")
     private String email;
+
+    private String captcha;
+
+    private String hiddenCaptcha;
+
+    private String realCaptcha;
 
 }

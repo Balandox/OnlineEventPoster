@@ -1,5 +1,6 @@
 package org.suai.courceWork.conrollers;
 
+import cn.apiclub.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.suai.courceWork.models.entities.User;
 import org.suai.courceWork.models.forms.UserForm;
 import org.suai.courceWork.models.enums.Category;
 import org.suai.courceWork.services.interfaces.*;
+import org.suai.courceWork.utils.CaptchaUtil;
 import org.suai.courceWork.utils.UserValidator;
 
 import javax.validation.Valid;
@@ -79,17 +81,19 @@ public class MainController {
 
     @GetMapping("/registration")
     public String registration(Model model){
-        model.addAttribute("userForm", new UserForm());
+        UserForm userForm = new UserForm();
+        model.addAttribute("userForm", userForm);
+        getCaptcha(userForm);
         return "user/registration";
     }
 
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, Model model, BindingResult bindingResult) {
-
         userValidator.validate(userForm, bindingResult);
-
-        if(bindingResult.hasErrors())
+        if(bindingResult.hasErrors()) {
+            getCaptcha(userForm);
             return "user/registration";
+        }
 
         User user = new User(userForm);
         userService.saveUser(user);
@@ -101,8 +105,7 @@ public class MainController {
         mailMessage.setSubject("Complete Registration!");
         mailMessage.setFrom("semen221411@mail.ru");
         mailMessage.setText("To confirm your account, please click here : "
-                +"http://localhost:8081/confirmAccount?token="+confirmationToken.getConfirmationToken());
-
+                +"http://localhost:8081/confirmAccount?token=" + confirmationToken.getConfirmationToken());
         emailSenderService.sendEmail(mailMessage);
         model.addAttribute("email", user.getEmail());
 
@@ -129,6 +132,13 @@ public class MainController {
     @GetMapping("/403")
     public String accessDenied() {
         return "main/403";
+    }
+
+    private void getCaptcha(UserForm userForm) {
+        Captcha captcha = CaptchaUtil.createCaptcha(240, 70);
+        userForm.setHiddenCaptcha(captcha.getAnswer());
+        userForm.setCaptcha(""); // value entered by the User
+        userForm.setRealCaptcha(CaptchaUtil.encodeCaptcha(captcha));
     }
 
 }
