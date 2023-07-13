@@ -20,6 +20,7 @@
         <a th:href="@{/(category='CONCERT', search=${search})}">Концерты</a>
         <a th:href="@{/(category='THEATRE', search=${search})}">Театр</a>
         <a  th:href="@{/(category='SPORT', search=${search})}">Спорт</a>
+        <a  th:href="@{/(topFive=true, search=${search})}">Топ 5 мероприятий</a>
 
         <div class="m" th:insert="fragments/menu.html :: menu"></div>
     </div>
@@ -53,6 +54,9 @@
         <li class="product-li"><b>Название:</b> <span th:utext="${product.getTitle()}"></span></li>
         <li class="product-li"><b>Цена:</b> <span th:utext="${product.getPrice()} + 'р'"></span></li>
         <li class="product-li"><b>Дата:</b> <span th:utext="${#dates.format(product.getDateOfEvent(),'dd-MM-yyyy HH:mm')}"></span></li>
+        <th:block sec:authorize="hasAuthority('ADMIN')">
+            <li class="product-li"><b>Рейтинг:</b> <span th:utext="${product.getRating()}"></span></li>
+        </th:block>
 
         <th:block sec:authorize="!isFullyAuthenticated() || hasAuthority('USER')">
             <div th:switch="${product.getAmount()}">

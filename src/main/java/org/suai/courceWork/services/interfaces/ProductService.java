@@ -24,4 +24,7 @@ public interface ProductService {
     List<Product> getAllByCategory(Category category);
 
     List<Product> searchProductWithCategory(Category category, String search);
+
+    List<Product> getTopFiveEvents();
+
 }

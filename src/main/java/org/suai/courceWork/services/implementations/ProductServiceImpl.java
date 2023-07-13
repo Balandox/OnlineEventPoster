@@ -53,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
             product.setImgName(productForm.getImageName());
             product.setDateOfEvent(dateOfEvent);
             product.setCategory(productForm.getCategory());
+            product.setRating(productForm.getRating());
         }
         else{
             product = new Product();
@@ -62,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
             product.setImgName(productForm.getImageName());
             product.setDateOfEvent(dateOfEvent);
             product.setCategory(productForm.getCategory());
+            product.setRating(productForm.getRating());
             this.productRepository.save(product);
         }
 
@@ -82,6 +84,11 @@ public class ProductServiceImpl implements ProductService {
 
     public List<Product> searchProductWithCategory(Category category, String search){
         return this.productRepository.findByTitleContainingIgnoreCaseAndCategory(search, category);
+    }
+
+    @Override
+    public List<Product> getTopFiveEvents() {
+        return this.productRepository.findTop5ByOrderByRatingDesc();
     }
 
 

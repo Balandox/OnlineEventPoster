@@ -32,6 +32,9 @@ public class Product {
     @Column(name = "amount")
     private int amount;
 
+    @Column(name = "rating")
+    private Double rating;
+
     @Column(name = "img_name")
     private String imgName;
 

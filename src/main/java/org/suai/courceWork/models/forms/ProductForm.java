@@ -41,6 +41,10 @@ public class ProductForm {
     //@CategorySubset(anyOf = {Category.CINEMA, Category.CONCERT, Category.SPORT, Category.THEATRE})
     private Category category;
 
+    @DecimalMin(value = "0.00", message = "Значение должно быть не меньше 0.00")
+    @DecimalMax(value = "5.00", message = "Значение должно быть не больше 5.00")
+    private Double rating;
+
     public ProductForm(Product product){
         this.id = product.getId();
         this.title = product.getTitle();
@@ -49,6 +53,7 @@ public class ProductForm {
         this.imageName = product.getImgName();
         this.dateOfEvent = product.getDateOfEvent().toString();
         this.category = product.getCategory();
+        this.rating = product.getRating();
     }
 
     public Category[] getCategoryArray(){

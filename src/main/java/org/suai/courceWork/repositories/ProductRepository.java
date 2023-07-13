@@ -16,6 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByTitleContainingIgnoreCase(String title);
 
     List<Product> findByTitleContainingIgnoreCaseAndCategory(String search, Category category);
+
     List<Product> findByOrderByTitle();
 
     @Query(value = "SELECT * FROM Product WHERE DATE(date) = ?1", nativeQuery = true)
@@ -25,6 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByCategory(Category category);
 
     List<Product> findAllByTitle(String title);
+
+    @Query(value = "SELECT * FROM Product ORDER BY rating DESC LIMIT 5", nativeQuery = true)
+    List<Product> findTop5ByOrderByRatingDesc();
 
 
 }

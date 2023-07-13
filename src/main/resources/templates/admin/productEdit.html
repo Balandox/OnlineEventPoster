@@ -66,6 +66,14 @@
       <td> </td>
     </tr>
 
+    <tr>
+          <td>Рейтинг</td>
+          <td><input th:field="*{rating}"  /></td>
+          <td>
+              <span class="error-message" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">..</span>
+          </td>
+    </tr>
+
       <tr>
           <td>Имя картинки</td>
           <td><input th:field="*{imageName}"  /></td>

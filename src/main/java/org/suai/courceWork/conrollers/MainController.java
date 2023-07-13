@@ -46,6 +46,7 @@ public class MainController {
     public String index(@RequestParam(value = "category", required = false) String category,
             @RequestParam(value="search", required = false) String searchProduct,
             @RequestParam(value="date", required = false) String date,
+            @RequestParam(value = "topFive", required = false) boolean topFive,
             Model model){
 
 /*        category  seacrh
@@ -54,10 +55,13 @@ public class MainController {
           null      null   // дефолт страница
           !null     !null  // поиск в категории
           */
-
+        System.out.println(topFive);
         List<Product> list = null;
 
-       if(category == null && searchProduct == null && date == null)
+        if(topFive)
+            list = this.productService.getTopFiveEvents();
+
+        else if (category == null && searchProduct == null && date == null)
             list = this.productService.getAll();
 
         else if(category != null && searchProduct == null)
@@ -75,7 +79,7 @@ public class MainController {
 
         model.addAttribute("search", searchProduct);
         model.addAttribute("category", category);
-       model.addAttribute("products", list);
+        model.addAttribute("products", list);
         return "main/index";
     }
 
