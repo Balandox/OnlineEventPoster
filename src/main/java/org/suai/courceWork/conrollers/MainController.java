@@ -92,10 +92,11 @@ public class MainController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, Model model, BindingResult bindingResult) {
+    public String addUser(@Valid @ModelAttribute("userForm") UserForm userForm, Model model, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
         if(bindingResult.hasErrors()) {
             getCaptcha(userForm);
+            model.addAttribute("userForm", userForm);
             return "user/registration";
         }
 
